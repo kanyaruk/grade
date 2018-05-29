@@ -1,9 +1,8 @@
 <template>
   <div class="hello container">
-    <div>
-     <img src = "/static/logo.png" width="200">
+    <div class="logo">
+      <img src="/static/logo.png" width="150" height="150">
     </div>
-    Grade
     <div class="columns">
       <div class="column">
         <b-field label="รหัสนักศึกษา">
@@ -20,39 +19,60 @@
       <button class="button is-success" @click="addStudent(sid, name)">ADD</button>
     </div>
     <div class="columns">
-      <ui :key="student.sid" v-for="student in students">
-        <li>{{student.sid}} {{student.name}}</li>
+      <ui>
+        <li :key="student.sid" v-for="student in students">
+          <div class="columns">
+            <div class="column">
+              {{student.sid}} {{student.name}}
+            </div>
+            <div class="column">
+              <button class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
+            </div>
+          </div>
+
+          <ui>
+            <li :key="subject.subid" v-for="subject in student.subjects">
+              {{subject.subid}} {{subject.subname}} {{subject.unit}} {{subject.grade.show}}
+            </li>
+          </ui>
+
+        </li>
       </ui>
     </div>
-    <div class="columns">
-      <div class="column">
+    <b-modal :active.sync="isModalActive">
+      <div class="card card-content">
+
         <b-field label="รหัสวิชา">
           <b-input v-model="subid"></b-input>
         </b-field>
-      </div>
-      <div class="column">
+
         <b-field label="ชื่อวิชา">
           <b-input v-model="subname"></b-input>
         </b-field>
+        <div class="columns">
+          <div class="column">
+            <b-field label="หน่วยกิต">
+              <b-select v-model="unit" placeholder="เลือกหน่วยกิต">
+                <option :value="3">3 หน่วยกิต</option>
+                <option :value="1">1 หน่วยกิต</option>
+              </b-select>
+            </b-field>
+          </div>
+          <div class="column">
+            <b-field label="เกรด">
+              <b-select v-model="grade" placeholder="เลือกเกรด">
+                <option v-for="option in grades" :value="option" :key="option.show">
+                  {{ option.show }}
+                </option>
+              </b-select>
+            </b-field>
+          </div>
+        </div>
+        <div class="columns is-centered">
+          <button class="button is-success" @click="addSub(subid, subname, unit, grade)">เพิ่มวิชา</button>
+        </div>
       </div>
-      <div class="column">
-        <b-field label="หน่วยกิต">
-          <b-select placeholder="เลือกหน่วยกิต">
-            <option :value="3">3 หน่วยกิต</option>
-            <option :value="1">1 หน่วยกิต</option>
-          </b-select>
-        </b-field>
-      </div>
-      <div class="column">
-        <b-field label="เกรด">
-          <b-select placeholder="เลือกเกรด">
-            <option v-for="option in grades" :value="option.value" :key="option.show">
-              {{ option.show }}
-            </option>
-          </b-select>
-        </b-field>
-      </div>
-    </div>
+    </b-modal>
   </div>
 </template>
 
@@ -68,9 +88,14 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      isModalActive: false,
       students: {},
       sid: '5806021631017',
       name: 'kanyaruk',
+      subid: '',
+      subname: '',
+      unit: '',
+      grade: '',
       grades: [
         {
           show: 'A',
@@ -104,7 +129,8 @@ export default {
           show: 'F',
           value: 0
         }
-      ]
+      ],
+      stdActive: ''
     }
   },
   methods: {
@@ -115,6 +141,16 @@ export default {
       })
       this.sid = ''
       this.name = ''
+    },
+    showAddSub (sid) {
+      this.stdActive = sid
+      this.isModalActive = true
+    },
+    addSub (subid, subname, unit, grade) {
+      gradeRef.child(`${this.stdActive}/subjects/${subid}`).set({
+        subid, subname, unit, grade
+      })
+      this.isModalActive = false
     }
   },
   created () {
@@ -127,4 +163,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.logo {
+text-align: center;
+margin: 10px;
+}
 </style>

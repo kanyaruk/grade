@@ -1,5 +1,8 @@
 <template>
   <div class="hello container">
+    <div>
+     <img src = "/static/logo.png" width="200">
+    </div>
     Grade
     <div class="columns">
       <div class="column">

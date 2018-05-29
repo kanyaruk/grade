@@ -26,6 +26,9 @@
               {{student.sid}} {{student.name}}
             </div>
             <div class="column">
+              {{calGrade(student.subjects)}}
+            </div>
+            <div class="column">
               <button class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
             </div>
           </div>
@@ -151,6 +154,14 @@ export default {
         subid, subname, unit, grade
       })
       this.isModalActive = false
+    },
+    calGrade (subject) {
+      if (!subject) {
+        return '0.00'
+      } else {
+        const arrSub = Object.values(subject)
+        console.log(arrSub)
+      }
     }
   },
   created () {

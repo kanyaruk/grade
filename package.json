@@ -16,6 +16,7 @@
   "dependencies": {
     "buefy": "^0.6.5",
     "firebase": "^5.0.4",
+    "sweetalert": "^2.1.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-sweetalert2": "^1.2.4"

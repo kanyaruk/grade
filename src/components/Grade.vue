@@ -14,40 +14,47 @@
           <b-input v-model="name"></b-input>
         </b-field>
       </div>
-    </div>
-    <div class="columns column is-centered">
-      <button class="button is-success" @click="addStudent(sid, name)">ADD</button>
+      <div class="column is-1" style="margin-top: 30px;">
+        <button class="button is-success" @click="addStudent(sid, name)">เพิ่มนักศึกษา</button>
+      </div>
     </div>
     <div class="columns">
-      <div>
-        <li :key="student.sid" v-for="student in students">
+      <div class="column">
+        <span :key="student.sid" v-for="student in students">
           <div class="columns">
             <div class="column">
-              {{student.sid}}
+              <div>
+                <b>รหัสนักศึกษา</b>
+                <input class="input" type="text" :value="student.sid" disabled>
+              </div>
             </div>
             <div class="column">
-              {{student.name}}
+              <b>ชื่อ - สกุล</b>
+              <input class="input" type="text" :value="student.name" disabled>
             </div>
             <div class="column">
-              {{calGrade(student.subjects)}}
+              <b>เกรดเฉลี่ย</b>
+              <input class="input" type="text" :value="calGrade(student.subjects)" disabled>
             </div>
-            <div class="column columns">
+            <div class="column columns" style="margin-top:12px;">
               <div class="column">
-                <button v-if="(student.subjects && Object.keys(student.subjects).length < 7) || !student.subjects" class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
+                <button v-if="(student.subjects && Object.keys(student.subjects).length < 7) || !student.subjects" class="button is-info" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
                 <button class="button" disabled v-else>ห้ามเพิ่มวิชามากกว่า 7 วิชาเรียน</button>
               </div>
             </div>
           </div>
+          <div class="grade">
+            <ui>
+              <li :key="subject.subid" v-for="subject in student.subjects">
+                {{subject.subid}} {{subject.subname}} {{subject.unit}} {{subject.grade.show}}
+                <button v-if="Object.keys(student.subjects).length > 3" class="button is-danger" @click="removeSub(student.sid,subject.subid, student, subject)">ถอนวิชานี้</button>
+                <button class="button" disabled v-else>ถอนไม่ได้ วิชาน้อยเกินไป</button>
+              </li>
+            </ui>
 
-          <ui>
-            <li :key="subject.subid" v-for="subject in student.subjects">
-              {{subject.subid}} {{subject.subname}} {{subject.unit}} {{subject.grade.show}}
-              <button v-if="Object.keys(student.subjects).length > 3" class="button is-danger" @click="removeSub(student.sid,subject.subid, student, subject)">ถอนวิชานี้</button>
-              <button class="button" disabled v-else>ถอนไม่ได้ วิชาน้อยเกินไป</button>
-            </li>
-          </ui>
+          </div>
 
-        </li>
+        </span>
       </div>
     </div>
     <b-modal :active.sync="isModalActive">
@@ -208,5 +215,8 @@ export default {
 .logo {
 text-align: center;
 margin: 10px;
+}
+.grade {
+  margin-left: 40px;
 }
 </style>

@@ -33,7 +33,8 @@
             </div>
             <div class="column columns">
               <div class="column">
-                <button class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
+                <button v-if="(student.subjects && Object.keys(student.subjects).length < 7) || !student.subjects" class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
+                <button class="button" disabled v-else>ห้ามเพิ่มวิชามากกว่า 7 วิชาเรียน</button>
               </div>
             </div>
           </div>
@@ -41,6 +42,8 @@
           <ui>
             <li :key="subject.subid" v-for="subject in student.subjects">
               {{subject.subid}} {{subject.subname}} {{subject.unit}} {{subject.grade.show}}
+              <button v-if="Object.keys(student.subjects).length > 3" class="button is-danger" @click="removeSub(student.sid,subject.subid, student, subject)">ถอนวิชานี้</button>
+              <button class="button" disabled v-else>ถอนไม่ได้ วิชาน้อยเกินไป</button>
             </li>
           </ui>
 
@@ -160,6 +163,27 @@ export default {
       })
       this.isModalActive = false
     },
+    removeSub (sid, subid, std, sub) {
+      console.log(sid, subid)
+      this.$swal({
+        title: `แน่ใจนะ ว่าจะถอนวิชา ${sub.subname} ออกจากระบบ?`,
+        text: 'ไม่สามารถกลับมาแก้ไขได้นะ ถ้าถอนสำเร็จ!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่ ถอนวิชานี้!'
+      }).then((result) => {
+        if (result.value) {
+          gradeRef.child(`${sid}/subjects/${subid}`).remove()
+          this.$swal(
+            'สำเร็จ!',
+            'ถอนวิชาเสร็จสิ้นแล้ว.',
+            'success'
+          )
+        }
+      })
+    },
     calGrade (subject) {
       if (!subject) {
         return '0.00'
@@ -167,7 +191,7 @@ export default {
         const arrSub = Object.values(subject)
         const unitTotal = arrSub.reduce((prev, curr) => prev + curr.unit, 0)
         const pointTotal = arrSub.reduce((prev, curr) => prev + (curr.unit * curr.grade.value), 0)
-        return pointTotal / unitTotal
+        return parseFloat(pointTotal / unitTotal).toFixed(2)
       }
     }
   },

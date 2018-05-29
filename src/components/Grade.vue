@@ -19,17 +19,22 @@
       <button class="button is-success" @click="addStudent(sid, name)">ADD</button>
     </div>
     <div class="columns">
-      <ui>
+      <div>
         <li :key="student.sid" v-for="student in students">
           <div class="columns">
             <div class="column">
-              {{student.sid}} {{student.name}}
+              {{student.sid}}
+            </div>
+            <div class="column">
+              {{student.name}}
             </div>
             <div class="column">
               {{calGrade(student.subjects)}}
             </div>
-            <div class="column">
-              <button class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
+            <div class="column columns">
+              <div class="column">
+                <button class="button" @click="showAddSub(student.sid)">เพิ่มวิชา</button>
+              </div>
             </div>
           </div>
 
@@ -40,7 +45,7 @@
           </ui>
 
         </li>
-      </ui>
+      </div>
     </div>
     <b-modal :active.sync="isModalActive">
       <div class="card card-content">

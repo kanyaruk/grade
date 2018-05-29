@@ -21,6 +21,35 @@
         <li>{{student.sid}} {{student.name}}</li>
       </ui>
     </div>
+    <div class="columns">
+      <div class="column">
+        <b-field label="รหัสวิชา">
+          <b-input v-model="subid"></b-input>
+        </b-field>
+      </div>
+      <div class="column">
+        <b-field label="ชื่อวิชา">
+          <b-input v-model="subname"></b-input>
+        </b-field>
+      </div>
+      <div class="column">
+        <b-field label="หน่วยกิต">
+          <b-select placeholder="เลือกหน่วยกิต">
+            <option :value="3">3 หน่วยกิต</option>
+            <option :value="1">1 หน่วยกิต</option>
+          </b-select>
+        </b-field>
+      </div>
+      <div class="column">
+        <b-field label="เกรด">
+          <b-select placeholder="เลือกเกรด">
+            <option v-for="option in grades" :value="option.value" :key="option.show">
+              {{ option.show }}
+            </option>
+          </b-select>
+        </b-field>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,7 +67,41 @@ export default {
     return {
       students: {},
       sid: '5806021631017',
-      name: 'kanyaruk'
+      name: 'kanyaruk',
+      grades: [
+        {
+          show: 'A',
+          value: 4
+        },
+        {
+          show: 'B+',
+          value: 3.5
+        },
+        {
+          show: 'B',
+          value: 3
+        },
+        {
+          show: 'C+',
+          value: 2.5
+        },
+        {
+          show: 'C',
+          value: 2
+        },
+        {
+          show: 'D+',
+          value: 1.5
+        },
+        {
+          show: 'D',
+          value: 1
+        },
+        {
+          show: 'F',
+          value: 0
+        }
+      ]
     }
   },
   methods: {

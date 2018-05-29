@@ -51,7 +51,7 @@
       <div class="card card-content">
 
         <b-field label="รหัสวิชา">
-          <b-input v-model="subid"></b-input>
+          <b-input type="number" v-model="subid"></b-input>
         </b-field>
 
         <b-field label="ชื่อวิชา">
@@ -98,8 +98,8 @@ export default {
     return {
       isModalActive: false,
       students: {},
-      sid: '5806021631017',
-      name: 'kanyaruk',
+      sid: '',
+      name: '',
       subid: '',
       subname: '',
       unit: '',

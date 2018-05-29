@@ -6,7 +6,7 @@
     <div class="columns">
       <div class="column">
         <b-field label="รหัสนักศึกษา">
-          <b-input v-model="sid"></b-input>
+          <b-input type="number" v-model="sid"></b-input>
         </b-field>
       </div>
       <div class="column">

@@ -44,13 +44,24 @@
             </div>
           </div>
           <div class="grade">
-            <ui>
-              <li :key="subject.subid" v-for="subject in student.subjects">
-                {{subject.subid}} {{subject.subname}} {{subject.unit}} {{subject.grade.show}}
+
+            <li class="columns" :key="subject.subid" v-for="subject in student.subjects">
+              <b style="margin-top: 11px;">+</b>
+              <div class="column">
+                <span>
+                  <b>รหัสวิชา: </b> {{subject.subid}}
+                  <b>ชื่อวิชา: </b> {{subject.subname}}
+                  <b>หน่วยกิต: </b> {{subject.unit}}
+                  <b>เกรดที่ได้: </b> {{subject.grade.show}}
+                </span>
+
+              </div>
+              <div class="column">
                 <button v-if="Object.keys(student.subjects).length > 3" class="button is-danger" @click="removeSub(student.sid,subject.subid, student, subject)">ถอนวิชานี้</button>
                 <button class="button" disabled v-else>ถอนไม่ได้ วิชาน้อยเกินไป</button>
-              </li>
-            </ui>
+
+              </div>
+            </li>
 
           </div>
 
@@ -59,6 +70,9 @@
     </div>
     <b-modal :active.sync="isModalActive">
       <div class="card card-content">
+        <div class="title">
+          เพิ่มวิชา
+        </div>
 
         <b-field label="รหัสวิชา">
           <b-input type="number" v-model="subid"></b-input>
@@ -169,6 +183,10 @@ export default {
         subid, subname, unit, grade
       })
       this.isModalActive = false
+      this.subid = ''
+      this.subname = ''
+      this.unit = ''
+      this.grade = ''
     },
     removeSub (sid, subid, std, sub) {
       console.log(sid, subid)

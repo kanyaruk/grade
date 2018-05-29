@@ -160,7 +160,9 @@ export default {
         return '0.00'
       } else {
         const arrSub = Object.values(subject)
-        console.log(arrSub)
+        const unitTotal = arrSub.reduce((prev, curr) => prev + curr.unit, 0)
+        const pointTotal = arrSub.reduce((prev, curr) => prev + (curr.unit * curr.grade.value), 0)
+        return pointTotal / unitTotal
       }
     }
   },

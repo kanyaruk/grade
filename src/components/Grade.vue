@@ -70,16 +70,16 @@
     </div>
     <b-modal :active.sync="isModalActive">
       <div class="card card-content">
-        <div class="title">
+        <div class="title columns is-centered">
           เพิ่มวิชา
         </div>
 
         <b-field label="รหัสวิชา">
-          <b-input type="number" v-model="subid"></b-input>
+          <b-input type="number" placeholder="รหัสวิชา" v-model="subid"></b-input>
         </b-field>
 
         <b-field label="ชื่อวิชา">
-          <b-input v-model="subname"></b-input>
+          <b-input v-model="subname" placeholder="ชื่อวิชา"></b-input>
         </b-field>
         <div class="columns">
           <div class="column">
@@ -101,7 +101,7 @@
           </div>
         </div>
         <div class="columns is-centered">
-          <button class="button is-success" @click="addSub(subid, subname, unit, grade)">เพิ่มวิชา</button>
+          <button class="button is-success " @click="addSub(subid, subname, unit, grade)">เพิ่มวิชา</button>
         </div>
       </div>
     </b-modal>
